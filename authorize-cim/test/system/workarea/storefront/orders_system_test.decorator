@@ -1,0 +1,28 @@
+module Workarea
+  decorate Storefront::OrdersSystemTest, with: :cim do
+    def test_showing_refunds
+      payment = Payment.find(@order.id)
+      amounts = payment.tenders.reduce({}) { |m, t| m.merge(t.id => t.amount) }
+
+      Payment::Capture.new(payment: payment, amounts: amounts).complete!
+
+      age_capture_or_purchase_transactions_for(payment)
+
+      Payment::Refund.new(payment: payment, amounts: amounts).complete!
+
+      visit storefront.check_orders_path
+
+      within '#single_order_lookup_form' do
+        fill_in 'order_id', with: '1234'
+        fill_in 'postal_code', with: '19106'
+        click_button t('workarea.storefront.orders.lookup_order')
+      end
+
+      assert_current_path(storefront.order_path('1234'))
+
+      assert(page.has_content?('1234'))
+      assert(page.has_content?(t('workarea.storefront.orders.refunds')))
+      assert(page.has_content?(t('workarea.storefront.orders.issued')))
+    end
+  end
+end

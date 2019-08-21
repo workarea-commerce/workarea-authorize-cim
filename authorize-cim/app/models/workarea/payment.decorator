@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+module Workarea
+  decorate Payment, with: :cim do
+    def successful_captures
+      transactions.select { |t| t.success? && (t.capture? || t.purchase?) }
+    end
+
+    def eligible_for_refund?
+      return true unless credit_card? && successful_captures.present?
+
+      successful_captures.first.created_at < Time.now - 24.hours
+    end
+  end
+end

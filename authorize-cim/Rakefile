@@ -1,81 +1,49 @@
-# frozen_string_literal: true
+#!/usr/bin/env rake
 begin
   require 'bundler/setup'
 rescue LoadError
   puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
 end
 
-require 'rspec/core/rake_task'
-RSpec::Core::RakeTask.new
-
-# Run lint checks
-require 'rubocop/rake_task'
-RuboCop::RakeTask.new :lint
-
-require 'ci/reporter/rake/rspec'
-
-namespace :ci do
-  desc 'Run all specs with CI reporting'
-  task all: %i(ci:setup:rspec spec)
+require "rdoc/task"
+RDoc::Task.new(:rdoc) do |rdoc|
+  rdoc.rdoc_dir = "rdoc"
+  rdoc.title    = "Category Overview Content Block"
+  rdoc.options << "--line-numbers"
+  rdoc.rdoc_files.include("README.md")
+  rdoc.rdoc_files.include("lib/**/*.rb")
 end
+
+APP_RAKEFILE = File.expand_path('../test/dummy/Rakefile', __FILE__)
+load 'rails/tasks/engine.rake'
+load 'rails/tasks/statistics.rake'
+load "workarea/changelog.rake"
+
+require 'rake/testtask'
+Rake::TestTask.new(:test) do |t|
+  t.libs << 'lib'
+  t.libs << 'test'
+  t.pattern = 'test/**/*_test.rb'
+  t.verbose = false
+end
+task default: :test
 
 $LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
-require 'weblinc/authorize_cim/version'
+require 'workarea/authorize_cim/version'
 
-desc 'Generate the changelog based on git history'
-task :changelog, :from, :to do |_t, args|
-  require 'date'
-
-  from = args[:from] || `git describe --tags --abbrev=0`.strip
-  to = args[:to] || 'HEAD'
-  log = `git log #{from}..#{to} --pretty=format:'%an|%B___'`
-
-  puts "Weblinc Authorize.Net CIM #{Weblinc::AuthorizeCim::VERSION} (#{Date.today})"
-  puts '-' * 80
-  puts
-
-  log.split(/___/).each do |commit|
-    pieces = commit.split('|').reverse
-    author = pieces.pop.strip
-    message = pieces.join.strip
-
-    next if message =~ /^\s*Merge pull request/
-    next if message =~ /No changelog/i
-
-    ticket = message.scan(/AUTHORIZE-\d+/)[0]
-    next if ticket.nil?
-    next if message =~ /^\s*Merge branch/ && ticket.nil?
-
-    first_line = false
-
-    message.each_line do |line|
-      if !first_line
-        first_line = true
-        puts "*   #{line}"
-      elsif line.strip.empty?
-        puts
-      else
-        puts "    #{line}"
-      end
-    end
-
-    puts "    #{author}"
-    puts
-  end
-end
-
-desc "Release version #{Weblinc::AuthorizeCim::VERSION} of the gem"
+desc "Release version #{Workarea::AuthorizeCim::VERSION} of the gem"
 task :release do
   host = "https://#{ENV['BUNDLE_GEMS__WEBLINC__COM']}@gems.weblinc.com"
 
-  system 'touch CHANGELOG.md'
-  system 'echo "$(rake changelog)\n\n\n$(cat CHANGELOG.md)" > CHANGELOG.md'
-  system 'git add CHANGELOG.md && git commit -m "Update changelog" && git push origin HEAD'
+  Rake::Task["workarea:changelog"].execute
+  system "git add CHANGELOG.md"
+  system 'git commit -m "Update CHANGELOG"'
+  system "git push origin HEAD"
 
-  system "git tag -a v#{Weblinc::AuthorizeCim::VERSION} -m 'Tagging #{Weblinc::AuthorizeCim::VERSION}'"
+  system "git tag -a v#{Workarea::AuthorizeCim::VERSION} -m 'Tagging #{Workarea::AuthorizeCim::VERSION}'"
   system 'git push --tags'
 
-  system 'gem build weblinc-authorize_cim.gemspec'
-  system "gem push weblinc-authorize_cim-#{Weblinc::AuthorizeCim::VERSION}.gem --host #{host}"
-  system "rm weblinc-authorize_cim-#{Weblinc::AuthorizeCim::VERSION}.gem"
+  system 'gem build workarea-authorize_cim.gemspec'
+  system "gem push workarea-authorize_cim-#{Workarea::AuthorizeCim::VERSION}.gem --host #{host}"
+  system "rm workarea-authorize_cim-#{Workarea::AuthorizeCim::VERSION}.gem"
 end

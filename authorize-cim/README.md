@@ -1,4 +1,4 @@
-# WebLinc Authorize.Net CIM Integration
+# WorkArea Authorize.Net CIM Integration
 
 Integrates the `ActiveMerchant::Billing::AuthorizeNetCimGateway` with
 the WebLinc platform. Designed to be dropped in to the project as the
@@ -7,13 +7,13 @@ configured.
 
 ## Installation
 
-This gem supports **Weblinc 2.x**.
+The latest version of this gem supports **Workarea 3.x**.
 
 Add this to Gemfile in your `source` block for
-**https://gems.weblinc.com**:
+**https://gems.workarea.com**:
 
 ```ruby
-gem 'weblinc-authorize-cim'
+gem 'workarea-authorize_cim'
 ```
 
 ## Usage
@@ -31,10 +31,10 @@ authorize:
 
 ## WebLinc Platform Documentation
 
-See [http://guides.weblinc.com](http://guides.weblinc.com) for WebLinc platform documentation.
+See https://developer.workarea.com for WebLinc platform documentation.
 
 ## Copyright & Licensing
 
-Copyright WebLinc 2016. All rights reserved.
+Copyright WebLinc 2016-2018. All rights reserved.
 
-For licensing, contact sales@weblinc.com.
+For licensing, contact sales@workarea.com.

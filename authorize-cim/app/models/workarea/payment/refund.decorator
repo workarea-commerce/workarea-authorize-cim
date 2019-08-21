@@ -1,0 +1,19 @@
+module Workarea
+  decorate Payment::Refund, with: :cim do
+    decorated { validate :has_refundable_transactions }
+
+    private
+
+    def has_refundable_transactions
+      amounts_with_tenders.each do |tender, _amount|
+        next unless tender.slug == :credit_card
+
+        tender.transactions.successful.not_canceled.captures_or_purchased.each do |transaction|
+          if transaction.created_at >= Time.now - 24.hours
+            errors.add(:credit_card, "This transaction hasn't been settled yet, and isn't eligble for refunding")
+          end
+        end
+      end
+    end
+  end
+end

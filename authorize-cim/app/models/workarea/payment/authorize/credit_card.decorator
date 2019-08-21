@@ -1,0 +1,61 @@
+# frozen_string_literal: true
+module Workarea
+  decorate Payment::Authorize::CreditCard, with: :cim do
+    def complete!
+      return unless Workarea::Payment::StoreCreditCard.new(tender, options).save!
+
+      transaction.response = handle_active_merchant_errors do
+        gateway.create_customer_profile_transaction(auth_args)
+      end
+    end
+
+    def cancel!
+      return unless transaction.success?
+
+      transaction.cancellation = handle_active_merchant_errors do
+        gateway.create_customer_profile_transaction(void_args)
+      end
+    end
+
+    private
+
+    def auth_args
+      {
+        transaction: {
+          type: :auth_only,
+          customer_profile_id: customer_profile_id,
+          customer_payment_profile_id: customer_payment_profile_id,
+          amount: auth_amount,
+          order: {
+            invoice_number: tender.payment.id.first(20) # auth net has max length 20 for this field
+          }
+        }
+      }
+    end
+
+    def void_args
+      {
+        transaction: {
+          type: :void,
+          customer_profile_id: customer_profile_id,
+          customer_payment_profile_id: customer_payment_profile_id,
+          trans_id: transaction.response.authorization
+        }
+      }
+    end
+
+    def customer_profile_id
+      tender.gateway_profile_id
+    end
+
+    def customer_payment_profile_id
+      tender.token
+    end
+
+    # cim requeires dollar amount (not cents)
+    # eg $4.25
+    def auth_amount
+      tender.amount.cents / 100.00
+    end
+  end
+end

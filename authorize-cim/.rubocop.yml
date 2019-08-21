@@ -1,65 +1,13 @@
+inherit_from: .rails-rubocop.yml
+
 AllCops:
   Exclude:
     - 'vendor/bundle/**/*'
+    - 'test/dummy/**/*'
     - 'bin/**/*'
 
-Lint/UselessAssignment:
-  Exclude:
-    - 'app/decorators/models/weblinc/payment/authorize/credit_card_decorator.rb'
-    - 'app/decorators/models/weblinc/payment/capture/credit_card_decorator.rb'
-    - 'app/decorators/models/weblinc/payment/purchase/credit_card_decorator.rb'
-
-Metrics/AbcSize:
-  Max: 21
-
-Style/Documentation:
+Style/StringLiterals:
   Enabled: false
 
-Metrics/MethodLength:
-  Max: 25
-  Exclude:
-    - lib/active_merchant/billing/bogus_authorize_net_cim_gateway.rb
-
-Metrics/LineLength:
-  Max: 100
-  Exclude:
-    - 'spec/dummy/**/*'
-    - lib/active_merchant/billing/bogus_authorize_net_cim_gateway.rb
-    - Rakefile
-
-Metrics/PerceivedComplexity:
-  Max: 9
-  Exclude:
-    - 'app/decorators/models/weblinc/payment/profile_decorator.rb'
-
-Style/GuardClause:
-  Exclude:
-    - 'app/decorators/models/weblinc/payment/profile_decorator.rb'
-
-Metrics/AbcSize:
-  Max: 26
-  Exclude:
-    - 'app/decorators/models/weblinc/payment/profile_decorator.rb'
-
-Metrics/CyclomaticComplexity:
-  Max: 7
-
-Metrics/ModuleLength:
-  Exclude:
-    - 'app/decorators/**/*'
-
-Lint/LiteralInCondition:
-  Exclude:
-    - 'app/decorators/models/weblinc/payment/profile_decorator.rb'
-
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: SupportedStyles, IndentOneStep, IndentationWidth.
-# SupportedStyles: case, end
-Style/CaseIndentation:
-  IndentWhenRelativeTo: end
-
-Metrics/BlockLength:
-  Exclude:
-    - 'app/decorators/**/*.rb'
-    - 'spec/**/*'
+Style/FrozenStringLiteralComment:
+  Enabled: false

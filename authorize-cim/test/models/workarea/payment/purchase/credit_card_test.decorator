@@ -1,0 +1,17 @@
+module Workarea
+  decorate Payment::Purchase::CreditCardTest, with: :cim do
+    def test_complete_purchase_on_the_credit_card_gateway
+      # no purchase on this gateway
+    end
+
+    def test_cancel_voids_with_the_authorization_from_the_transaction
+      # no void on this gateway
+    end
+
+    private
+
+    def payment
+      @payment ||= create_payment(profile: create_payment_profile)
+    end
+  end
+end
