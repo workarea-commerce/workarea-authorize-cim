@@ -1,0 +1,14 @@
+module Workarea
+  decorate Payment::RefundTest, with: :cim do
+    def test_valid_is_false_if_there_are_no_refundable_transactions
+      payment.store_credit = nil
+      profile.update_attributes!(store_credit: 0)
+      payment.purchase!
+      refund = Payment::Refund.new(payment: payment)
+      refund.allocate_amounts!(total: 5.to_m)
+
+      refute(refund.valid?)
+      assert(refund.errors[:credit_card].present?)
+    end
+  end
+end

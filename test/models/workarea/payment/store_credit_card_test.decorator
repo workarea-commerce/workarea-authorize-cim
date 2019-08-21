@@ -1,0 +1,7 @@
+module Workarea
+  decorate Payment::StoreCreditCardTest, with: :cim do
+    def test_perform_stores_on_the_gateway
+      # no store on this gateway
+    end
+  end
+end

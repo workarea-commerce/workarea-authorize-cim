@@ -1,0 +1,13 @@
+inherit_from: .rails-rubocop.yml
+
+AllCops:
+  Exclude:
+    - 'vendor/bundle/**/*'
+    - 'test/dummy/**/*'
+    - 'bin/**/*'
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
