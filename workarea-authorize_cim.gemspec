@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.version     = Workarea::AuthorizeCim::VERSION
   s.authors     = ['Tom Scott']
   s.email       = ['tscott@workarea.com']
-  s.homepage    = 'https://www.workarea.com'
+  s.homepage    = 'https://github.com/workarea-commerce/workarea-authorize_cim'
   s.summary     = 'Authorize.Net CIM Integration for WorkArea'
   s.description = 'Authorize.Net CIM Integration for WorkArea'
 
