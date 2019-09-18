@@ -11,3 +11,4 @@ Gemfile.lock
 .DS_STORE
 coverage
 test/reports
+.rubocop-http*
