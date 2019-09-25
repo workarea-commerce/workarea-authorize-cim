@@ -1,22 +1,31 @@
-# WorkArea Authorize.Net CIM Integration
+WorkArea Authorize.Net CIM Integration
+================================================================================
 
 Integrates the `ActiveMerchant::Billing::AuthorizeNetCimGateway` with
-the WebLinc platform. Designed to be dropped in to the project as the
+the Workarea platform. Designed to be dropped in to the project as the
 primary payment gateway. Uses a bogus gateway until secrets are
 configured.
 
-## Installation
+Getting Started
+--------------------------------------------------------------------------------
 
-The latest version of this gem supports **Workarea 3.x**.
-
-Add this to Gemfile in your `source` block for
-**https://gems.workarea.com**:
+Add the gem to your application's Gemfile:
 
 ```ruby
+# ...
 gem 'workarea-authorize_cim'
+# ...
 ```
 
-## Usage
+Update your application's bundle.
+
+```bash
+cd path/to/application
+bundle
+```
+
+Usage
+--------------------------------------------------------------------------------
 
 The gem will automatically load the `BogusAuthorizeNetCimGateway` when
 installed, but you can load the real-life gateway by configuring the
@@ -29,12 +38,12 @@ authorize:
   test: true # ONLY FOR STAGING!! Uses the auth.net sandbox
 ```
 
-## WebLinc Platform Documentation
+Workarea Commerce Documentation
+--------------------------------------------------------------------------------
 
-See https://developer.workarea.com for WebLinc platform documentation.
+See [https://developer.workarea.com](https://developer.workarea.com) for Workarea Commerce documentation.
 
-## Copyright & Licensing
+License
+--------------------------------------------------------------------------------
 
-Copyright WebLinc 2016-2018. All rights reserved.
-
-For licensing, contact sales@workarea.com.
+Workarea Authorize.net CIM is released under the [Business Software License](LICENSE)
