@@ -1,0 +1,15 @@
+module Workarea
+  decorate Checkout::Steps::Payment, with: :cim do
+
+    private
+
+    def set_credit_card(params)
+      super
+
+      return unless payment.credit_card.present?
+      payment.credit_card.tap do |card|
+        card.update_attributes(ip_address: params[:ip])
+      end
+    end
+  end
+end
