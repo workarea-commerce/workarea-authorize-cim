@@ -1,8 +1,0 @@
-module Workarea
-  decorate Storefront::Checkout::PlaceOrderController, with: :cim do
-    def place_order
-      params.merge!(ip: request.remote_ip)
-      super
-    end
-  end
-end
