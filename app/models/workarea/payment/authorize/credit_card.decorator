@@ -31,7 +31,7 @@ module Workarea
           }
         },
         extra_options: {
-          x_customer_ip: tender.ip_address
+          x_customer_ip: customer_ip_address
         }
       }
     end

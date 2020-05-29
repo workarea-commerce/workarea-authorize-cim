@@ -30,7 +30,7 @@ module Workarea
             invoice_number: tender.payment.id.first(20) # auth net has max length 20 for this field
           },
           extra_options: {
-            x_customer_ip: tender.ip_address
+            x_customer_ip: customer_ip_address
           }
         }
       }
