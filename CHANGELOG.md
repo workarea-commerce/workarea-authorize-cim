@@ -1,3 +1,54 @@
+Workarea Authorize Cim 2.1.2 (2020-06-01)
+--------------------------------------------------------------------------------
+
+*   Fixed use of variables
+
+
+    daniel
+
+*   Updated to grab IP from Order model instead
+
+
+    daniel
+
+*   Added fields to include IP in transactions IP address is stored on tender while the order is being placed. It is then passed along as an argument when submitting the transaction to Authorize.net
+
+
+    daniel
+
+*   V3.5 compatibility updates
+
+    AUTHNET-1
+
+    Jeff Yucis
+
+*   Update README
+
+
+    Matt Duffy
+
+*   Update README
+
+
+    Matt Duffy
+
+*   Complete post-migration tasks
+
+
+    Curt Howard
+
+*   Update gemspec to add license
+
+
+    Curt Howard
+
+*   Update LICENSE
+
+
+    Curt Howard
+
+
+
 Workarea Authorize Cim 2.1.1 (2019-08-22)
 --------------------------------------------------------------------------------
 
