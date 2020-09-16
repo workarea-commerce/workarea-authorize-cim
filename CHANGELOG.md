@@ -1,3 +1,13 @@
+Workarea Authorize Cim 2.1.3 (2020-09-16)
+--------------------------------------------------------------------------------
+
+*   Add invoice number to refund method Authorize.net doesn't grab the invoice number from the captured transaction, so it needs to be defined again in the refund
+
+
+    daniel
+
+
+
 Workarea Authorize Cim 2.1.2 (2020-06-01)
 --------------------------------------------------------------------------------
 
